@@ -14,135 +14,133 @@ PDF Upload → Text Extraction → Chunking → Embeddings → Vector Store → 
 
 🧠 Tech Stack
 
-Component	Technology Used
+1) Component	Technology Used
 
-UI:	Streamlit
+1. UI:	Streamlit
 
-LLM:	Gemini 2.5 Flash
+2. LLM:	Gemini 2.5 Flash
 
-Embeddings:	gemini-embedding-001 (3072 dimensions)
+3. Embeddings:	gemini-embedding-001 (3072 dimensions)
 
-Vector DB:	Qdrant (local mode)
+4. Vector DB:	Qdrant (local mode)
 
-Retrieval:	Cosine Similarity Top-K
+5. Retrieval:	Cosine Similarity Top-K
 
-Language:	Python 3.10+
+6. Language:	Python 3.10+
+
 
 Processing Pipeline
 
 1️⃣ Document Upload
 
-User uploads a single file via Streamlit.
+-- User uploads a single file via Streamlit.
 
-File is processed in memory.
+-- File is processed in memory.
 
 2️⃣ Text Extraction
 
-Uses PyPDF-based extraction.
+-- Uses Python based extraction.
 
-Preserves page numbers for citation support.
+-- Preserves page numbers for citation support.
 
-Each chunk retains:
-
-text & page number
+-- Each chunk retains: Text & Page number
 
 3️⃣ Chunking Strategy
 
-Chunk size: ~800 characters
+-- Chunk size: ~800 characters
 
-Overlap: ~100 characters
+-- Overlap: ~100 characters
 
-Strategy: Sliding window
+-- Strategy: Sliding window
 
-Reason:
+Reason: Maintains semantic continuity and Reduces context loss
 
-Maintains semantic continuity
-
-Reduces context loss
-
-Optimized for embedding model token limits
+-- Optimized for embedding model token limits
 
 4️⃣ Embeddings
 
-Model: gemini-embedding-001
-Dimension: 3072
+-- Model: gemini-embedding-001
 
-Why:
+-- Dimension: 3072
 
-High-quality semantic embeddings
+Why: 
 
-Native compatibility with Gemini ecosystem
+-- High-quality semantic embeddings
 
-Strong retrieval performance
+-- Native compatibility with Gemini ecosystem
+
+-- Strong retrieval performance
 
 5️⃣ Vector Store
 
-Database: Qdrant (Local Mode)
+-- Database: Qdrant (Local Mode)
 
-Collection initialized dynamically
+-- Collection initialized dynamically
 
-Vector size = 3072
+-- Vector size = 3072
 
-Distance metric = Cosine Similarity
+-- Distance metric = Cosine Similarity
 
-Points include metadata:
+-- Points include metadata:
 
-page number & text snippet
+-- page number & text snippet
 
-session id
+-- session id
 
-Reason:
-
-Lightweight
-
-Fast local development
-
-Production-ready scalable architecture
+Reason: Lightweight, Fast local development & Production-ready scalable architecture
 
 6️⃣ Retrieval Strategy
 
-Top-K = 5
+-- Top-K = 5
 
-Cosine similarity search
+-- Cosine similarity search
 
-Filter by session_id to isolate documents per chat
+-- Filter by session_id to isolate documents per chat
 
 Why:
 
-Ensures only relevant document chunks are retrieved
+-- Ensures only relevant document chunks are retrieved
 
-Supports multiple chat sessions
+-- Supports multiple chat sessions
 
 7️⃣ RAG (Q&A Generation)
 
 Prompt includes:
 
-Retrieved context chunks
+-- Retrieved context chunks
 
-Page numbers
+-- Page numbers
 
-User question
+-- User question
 
-Chat history (for follow-ups)
+-- Chat history (for follow-ups)
 
 Rules enforced:
 
-Answers must be grounded in context
+-- Answers must be grounded in context
 
-Must include page citations
+-- Must include page citations
 
-If information not found → respond accordingly
+-- If information not found → respond accordingly
 
 Features
 
 ✅ Upload any single File
+
 ✅ Chat interface
+
 ✅ Persistent conversation history
+
 ✅ Follow-up question support
+
 ✅ Page citations in answers
+
 ✅ Latency breakdown (Embedding / Retrieval / Generation)
+
 ✅ Multi-chat sidebar (ChatGPT style)
+
 ✅ Automatic chat renaming
+
 ✅ Evaluation table (5-question test)
 
 🧪 Evaluation (Basic Accuracy Test)
@@ -150,20 +148,29 @@ Features
 The app includes 5 test sample questions:
 
 Question	Expected Keywords	Result
+
 Total experience?	2+ years	✅
+
 Churn models used?	Logistic, Random Forest, XGBoost	✅
+
 Election forecasting accuracy?	92%	✅
+
 Web scraping tools?	Beautiful Soup, Selenium	✅
+
 Skill extraction model?	BERT	✅
 
 Accuracy: 100% on internal test document
 
 🚀 How to Run Locally
+
 1️⃣ Clone the repository
+
 git clone <your-repo-url>
+
 cd pdf-rag-app
 
 2️⃣ Install dependencies
+
 pip install -r requirements.txt
 
 3️⃣ Set Environment Variable
@@ -172,15 +179,15 @@ Create a .env file:
 
 GEMINI_API_KEY=your_api_key_here
 
-
 OR export directly:
 
 export GEMINI_API_KEY=your_key   # Mac/Linux
+
 setx GEMINI_API_KEY your_key     # Windows
 
 4️⃣ Run the app
-streamlit run app.py
 
+streamlit run app.py
 
 App will open at:
 
@@ -188,23 +195,34 @@ http://localhost:8501
 
 📂 Project Structure
 pdf-rag-app/
+
 │
+
 ├── app.py
+
 ├── requirements.txt
+
 ├── README.md
+
 │
+
 └── core/
+
     ├── document_loader.py
+    
     ├── chunker.py
+    
     ├── embeddings.py
+    
     ├── vectorstore.py
+    
     ├── retriever.py
+    
     ├── rag_pipeline.py
+    
     └── prompt.py
 
 ✅ Requirements Coverage
-
-Requirement	Status
 
 Upload any file	✅
 
@@ -232,12 +250,12 @@ Basic evaluation	✅
 
 Edge Case Handling
 
-Re-uploading same document skips re-indexing
+-- Re-uploading same document skips re-indexing
 
-Handles empty retrieval results
+-- Handles empty retrieval results
 
-Prevents cross-session contamination
+-- Prevents cross-session contamination
 
-Avoids crashes on missing context
+-- Avoids crashes on missing context
 
-Graceful quota handling
+-- Graceful quota handling
