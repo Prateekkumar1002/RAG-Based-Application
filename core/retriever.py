@@ -1,39 +1,3 @@
-# from core.vectorstore import search
-
-# def retrieve(query_embedding, session_id, top_k=5):
-
-#     results = search(query_embedding, session_id, top_k)
-
-#     # Extract only text from payload
-#     context_chunks = []
-
-#     for point in results:
-#         if point.payload and "text" in point.payload:
-#             context_chunks.append(point.payload["text"])
-
-#     return context_chunks
-
-# from core.vectorstore import search
-
-
-# def retrieve(query_embedding, session_id, top_k=5, score_threshold=0.6):
-#     results = search(query_embedding, session_id, top_k)
-
-#     if not results:
-#         return []
-
-#     filtered = [
-#         {
-#             "text": r.payload.get("text", ""),
-#             "page": r.payload.get("page", "N/A"),
-#             "score": r.score,
-#         }
-#         for r in results
-#         if r.score >= score_threshold
-#     ]
-
-#     return filtered
-
 
 
 
@@ -89,3 +53,4 @@ def retrieve(query_embedding, session_id, top_k=5, score_threshold=0.4):
             })
 
     return retrieved_chunks
+
