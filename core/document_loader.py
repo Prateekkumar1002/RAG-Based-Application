@@ -1,21 +1,3 @@
-# import fitz
-# from docx import Document
-
-# def load_document(uploaded_file):
-#     if uploaded_file.name.endswith(".pdf"):
-#         doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
-#         text = ""
-#         for page in doc:
-#             text += page.get_text()
-#         return text
-
-#     elif uploaded_file.name.endswith(".docx"):
-#         doc = Document(uploaded_file)
-#         return "\n".join([p.text for p in doc.paragraphs])
-
-#     else:
-#         return uploaded_file.read().decode("utf-8")
-
 
 import pdfplumber
 from docx import Document
@@ -70,3 +52,4 @@ def _load_txt(uploaded_file):
         "page": 1,
         "text": text
     }]
+
